@@ -24,6 +24,20 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/timestamp/:date_string", (req, res) => {
+  let date_string = req.param('date_string') || '';
+  console.log(date_string);
+  if(date_string === ''){
+    let date = new Date();
+    return res.json({"unix":date.getTime(), "utc": date.toUTCString()});
+  }
+  let date = new Date(date_string);
+  if(date instanceof Date && !isNaN(date)){
+    return res.json({"unix":date.getTime(), "utc": date.toUTCString()});  
+  } else {
+    return res.json({"error" : "Invalid Date" });  
+  }
+});
 
 
 // listen for requests :)
